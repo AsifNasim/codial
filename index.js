@@ -1,7 +1,9 @@
 const express = require('express');
 
-const app = express();
 
+const app = express();
+// since we have only one file in routes it will automatically fetch it
+app.use('/', require('./routes'));
 const port  = 8000
 
 app.listen(port, function(err){
