@@ -1,10 +1,14 @@
 const express = require('express');
-
+const cookieParser = require('cookie-parser');
 const expressLayout = require('express-ejs-layouts');
+const db = require('./config/mongoose');
 const app = express();
 
+app.use(cookieParser());
+app.use(express.urlencoded());
 // setting up layouts
 app.use(expressLayout);
+// So that the layout could read static files
 app.set('layout extractStyles', true)
 app.set('layout extractScripts', true)
 
