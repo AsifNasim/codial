@@ -14,6 +14,9 @@ module.exports.posts = function(req, res){
 }
 // Render the sign in page
 module.exports.signin = function(req, res){
+    if(req.isAuthenticated()){
+       return req.redirect('/users/profile');
+    }
     return res.render('sign-in', {
         title:'Codeial | Sign-in Page'
     });
@@ -21,6 +24,9 @@ module.exports.signin = function(req, res){
 
 // Render the sign up page
 module.exports.signup = function(req, res){
+    if(req.isAuthenticated()){
+       return req.redirect('/users/profile');
+    }
     return res.render('sign-up', {
         title:'Codeial | Sign-up Page'
     });
@@ -49,5 +55,14 @@ module.exports.create = function(req, res){
 }
 
 module.exports.createSession = function(req, res){
-    // To DO LATER
+    // Redirecting to the homepage
+    return res.redirect('/');
+}
+
+
+module.exports.destroySession = function(req, res){
+    // this logout function is given by passport authentication library
+    req.logout();
+
+    return res.redirect('/');
 }
