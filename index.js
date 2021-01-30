@@ -11,6 +11,15 @@ const passportLocal = require('./config/passport-local-strategy');
 // The mongo store is used to store session cookie on a persistent storage and it also has an argument while requiring it
 // which is session
 const MongoStore  = require('connect-mongo')(session);
+const sassMiddleware = require('node-sass-middleware');
+
+app.use(sassMiddleware({
+    src:'./assets/scss',
+    dest:'./assets/css',
+    debug:true,
+    outputStyle:'extended', // it could be expanded
+    prefix:'/css'
+}))
 app.use(express.urlencoded());
 app.use(cookieParser());
 // setting up static files(assets)

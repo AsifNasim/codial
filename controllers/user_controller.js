@@ -9,8 +9,8 @@ module.exports.contact = function(req, res){
     return res.end('<h1>Contact Us </h1>')
 }
 
-module.exports.posts = function(req, res){
-    return res.end('<h1>Posts of codial media app</h1>')
+module.exports.post = function(req, res){
+    return res.end('<h1>Post posted successfully</h1>');
 }
 // Render the sign in page
 module.exports.signin = function(req, res){

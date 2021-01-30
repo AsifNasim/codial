@@ -12,7 +12,7 @@ passport.use(new LocalStrategy({
     usernameField:'email'
     }, //second parameter is the callback function
     function(email, password, done){
-        // 'done' is iternal callback function to passport which handles, success, failure and error
+        // 'done' is internal callback function to passport which handles, success, failure and error
         // FIND A USER AND ESTABLISH THE IDENTITY
         User.findOne({email:email}, function(err,user){
             // first email is the field of schema and second email param is what has been passed 
@@ -23,7 +23,7 @@ passport.use(new LocalStrategy({
                 // In general done func receives two arguments
             }
 
-            if(!user || user.password != password){
+            if((!user) || (user.password != password)){
                 console.log('Invalid username/password');
                 // the first argument in done shows the null as error and the second argument 
                 // says that the authentication has not done
