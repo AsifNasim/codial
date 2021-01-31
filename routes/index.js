@@ -10,5 +10,6 @@ router.get('/', homeController.home);
 // router.get('/post')
 // router.get('/about',homeController.about );
 router.use('/users',require('./users'));
+router.use('/post', require('./post'));
 
 module.exports = router;

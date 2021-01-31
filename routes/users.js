@@ -8,7 +8,7 @@ const homeController =  require('../controllers/home_controller');
 
 router.get('/profile',passport.checkAuthentication, userController.profile);
 router.get('/contact',userController.contact );
-router.get('/posts', homeController.post);
+// router.get('/posts', homeController.post);
 router.get('/sign-in',userController.signin);
 router.get('/sign-up',userController.signup);
 router.post('/create', userController.create);
