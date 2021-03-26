@@ -4,6 +4,7 @@ const port  = 8000;
 const cookieParser = require('cookie-parser');
 const expressLayout = require('express-ejs-layouts');
 const db = require('./config/mongoose');
+// express session makes the encrypted cookie session and not the passport library
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
@@ -37,9 +38,13 @@ app.set('views', './views')
 
 // creating session
 app.use(session({
+    // name of the software(web app)
     name:'codeial',
     // TODO change the secret before deployment in production mode
+    // in order to encode it we have must have a key
     secret:'hehehe',
+    // whenever there is a request which is not initialized, and we do not 
+    // want to store the extra data in the session cookie
     saveUninitialized:false,
     resave:false,
     cookie:{
@@ -49,6 +54,7 @@ app.use(session({
     // mongo store us used to store the session cookie in the db
     store: new MongoStore({
         mongooseConnection:db,
+        // it will not remove the cookie session from browser when server get restarted
         autoRemove : 'disabled'
     },
     // there is the callback func in case the connection is not get established
@@ -59,7 +65,9 @@ app.use(session({
 })); 
 
 app.use(passport.initialize());
+// passport also helps in maintaining session
 app.use(passport.session());
+// it checks if the seesion cookie is present or not
 app.use(passport.setAuthenticatedUser);
 // since we have only one file in routes it will automatically fetch it
 app.use('/', require('./routes'));

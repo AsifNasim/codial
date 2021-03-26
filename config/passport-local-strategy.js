@@ -63,7 +63,8 @@ passport.checkAuthentication = function(req, res, next){
     // if the user is not signed in them return it to the sign-in page
     return res.redirect('/users/sign-in');
 }
-
+// we use it as a middleware as we are using all three arguments that is req, res and next   
+// to check whether the user is signed in or not
 passport.setAuthenticatedUser = function(req, res, next){
     if(req.isAuthenticated()){
         // req.users contains the current signed in user from the session cookie and we are just sending this 
