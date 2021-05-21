@@ -5,6 +5,7 @@ module.exports.create = function(req,res){
     Post.create({
         // post will be created in the content field of the schema and 
         // it has same name in the post-form
+        // it will get the data from the browser and save it in DB
         content:req.body.content,
         user:req.user._id
         // fetching the user form DB schema

@@ -13,8 +13,11 @@ module.exports.create = function(req, res){
                 user : req.user._id
             }, function(err, comment){
                 // handle error here
+
+
+                // this is given by mongoDB
                 post.comments.push(comment);
-                // it tells the DB tht this is final one
+                // it tells the DB tht this is final version
                 post.save();
 
                 res.redirect('/');

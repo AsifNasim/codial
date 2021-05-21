@@ -13,11 +13,13 @@
 
       <div id="posts-list-container">
          <ul>
+            <!-- this "posts come from home controller" -->
             <% for(post of posts){ %>
 
                <li>
                  <p>
-                  <%= post.content %>
+                    <!-- This content will come from form post -->
+                  <%= post.content %>  
 
                   <br>
                   <small>
@@ -30,17 +32,30 @@
                  <div class="post-comments">
                     <% if(locals.user) {%>
                         <form action="/comments/create" method="POST">
-                           <input type="text" name="content"  placeholder="Type here to add comment ..." >
+                           <input type="text" name="content"  placeholder="Type here to add comment ..." required >
                            <!-- ID of the post in which the comment is need to be added  -->
                            <input type="hidden" name="post" value="<%= post._id%> ">
                            <input type="submit" value="Post Comment">
                      <%}%>
+                     
+                     <div class="post-comments-list">
+                        <ul id="post-comments-<%= post._id%>">
+                           <% for (comment of post.comments){%>
+                              <p>
+                                 <%= comment.content%>
+                                 <br>
+                                 <small>
+                                    <%= comment.user.name %>
+                                 </small>
+                              </p>
+                              <%}%>
+                        </ul>
+                     </div>
+
                  </div>
                </li>
-               <%}%>
-
-
-
+            <%}%>
+            
          </ul>
       </div>
    </section>

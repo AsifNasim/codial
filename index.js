@@ -15,11 +15,11 @@ const MongoStore  = require('connect-mongo')(session);
 const sassMiddleware = require('node-sass-middleware');
 
 app.use(sassMiddleware({
-    src:'./assets/scss',
+    src:'./assets/scss', // from where do we pick up the file for scss
     dest:'./assets/css',
-    debug:true,
+    debug:true, // will tell the terminal of the error In production we need to set it as false
     outputStyle:'extended', // it could be expanded
-    prefix:'/css'
+    prefix:'/css' // inside the asset folder there would be css folder
 }))
 app.use(express.urlencoded());
 app.use(cookieParser());

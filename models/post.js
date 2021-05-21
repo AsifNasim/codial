@@ -5,7 +5,7 @@ const postSchema = new mongoose.Schema({
     // schema fields here
     content: {
         type:String,
-        required:true
+        required:true // without this the post will not be saved in th DB
     },
 
     user: {
@@ -22,7 +22,7 @@ const postSchema = new mongoose.Schema({
         {
             type : mongoose.Schema.Types.ObjectId,
             // referring to schema
-            ref: 'comment'
+            ref: 'Comment'
         }
     ]
 
