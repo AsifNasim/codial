@@ -25,3 +25,28 @@ module.exports.create = function(req, res){
          }
     });
 }
+
+module.exports.destroy = function(req, res){
+    Comment.findById(req.params.id, function(err, comment){
+        if(comment.user == req.user.id){
+
+            //saving the post in which the comment exist, so that it will 
+            // not get deleted while deleting it.
+            let postId = comment.post;
+
+            comment.remove();
+
+            // $pull is mongoDB CLI query syntax, 
+            Post.findByIdAndUpdate(postId, {$pull: {
+                // Id that we need to pull out from comment
+                comments:req.params.id
+            }}, function(err, post){
+                return res.redirect('back');
+            })
+        }
+        // if this doesnot match then we will do the same thing
+        else{
+            return res.redirect('back');
+        }
+    })
+}
