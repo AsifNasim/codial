@@ -1,6 +1,6 @@
 const Post = require('../models/post');
 const User =  require('../models/user');
-module.exports.home = function(req, res){
+module.exports.home = async function(req, res){
     // return res.end('<h1>Express is up for social media app: Codial</h1>');
     // console.log(req.cookies)
     // res.cookie('user_id', 100);
@@ -18,24 +18,51 @@ module.exports.home = function(req, res){
     //     })
     // })
     // we have shifted the above callback function to exec()
-    Post.find({})
-    .populate('user')
-    .populate({
-        path:'comments',
-        populate:{
-           path:'user' 
-        }
-    })
-    .exec(function(err, posts){
-        // Fetching all the users
-        User.find({}, function(err, users){
-            return res.render('home',{
-                title:'Codial Web',
-                posts:posts,
-                all_users:users
-            });
+
+    //.........SIMPLE METHOD.................. 
+
+    // Post.find({})
+    // .populate('user')
+    // .populate({
+    //     path:'comments',
+    //     populate:{
+    //        path:'user' 
+    //     }
+    // })
+    // .exec(function(err, posts){
+    //     // Fetching all the users
+    //     User.find({}, function(err, users){
+    //         return res.render('home',{
+    //             title:'Codial Web',
+    //             posts:posts,
+    //             all_users:users
+    //         });
+    //     });
+    // }) 
+
+
+    try{
+        // populate the user of each post
+        let posts = await Post.find({})
+        .populate('user')
+        .populate({
+            path:'comments',
+            populate:{
+                path:'user'
+            }
         });
-    }) 
+
+        let users = await User.find({});
+            return res.render('home', {
+                title: "Codeial | Home",
+                posts: posts,
+                all_users: users
+            });
+    } catch(err){
+        console.log('Error', err);
+        return;
+    }
+
 }
 
 module.exports.about = function(req, res){
