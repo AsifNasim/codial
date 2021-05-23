@@ -1,4 +1,5 @@
 const Post = require('../models/post');
+const User =  require('../models/user');
 module.exports.home = function(req, res){
     // return res.end('<h1>Express is up for social media app: Codial</h1>');
     // console.log(req.cookies)
@@ -26,10 +27,14 @@ module.exports.home = function(req, res){
         }
     })
     .exec(function(err, posts){
-        return res.render('home',{
-            title:'Codial Web',
-            posts:posts
-        })
+        // Fetching all the users
+        User.find({}, function(err, users){
+            return res.render('home',{
+                title:'Codial Web',
+                posts:posts,
+                all_users:users
+            });
+        });
     }) 
 }
 
