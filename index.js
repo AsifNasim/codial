@@ -8,6 +8,8 @@ const db = require('./config/mongoose');
 const session = require('express-session');
 const passport = require('passport');
 const passportLocal = require('./config/passport-local-strategy');
+const flash = require('connect-flash');
+const customMware = require('./config/middleware');
 
 // The mongo store is used to store session cookie on a persistent storage and it also has an argument while requiring it
 // which is session
@@ -69,6 +71,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 // it checks if the seesion cookie is present or not
 app.use(passport.setAuthenticatedUser);
+// it is being used here because it uses session cookies
+app.use(flash());
+// 
+app.use(customMware.setFlash);
 // since we have only one file in routes it will automatically fetch it
 app.use('/', require('./routes'));
 

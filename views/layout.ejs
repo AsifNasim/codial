@@ -14,6 +14,14 @@
 
     <!-- Adding Partials here -->
     <%- include('_header')%>
+
+     <!-- we will check locals here mand put the message -->
+
+     <% if(flash.success && flash.success.length > 0){%>
+        <h5>
+            <% flash.success %>
+        </h5>
+        <% } %>
         <main id="layout-main">
             <%- body %>
         </main>
