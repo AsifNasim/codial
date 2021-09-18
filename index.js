@@ -25,6 +25,8 @@ app.use(sassMiddleware({
 }))
 app.use(express.urlencoded());
 app.use(cookieParser());
+// make the upload file available to browser
+app.use('/uploads', express.static(__dirname + '/uploads'));
 // setting up static files(assets)
 app.use(express.static('./assets')); 
 // setting up layouts
