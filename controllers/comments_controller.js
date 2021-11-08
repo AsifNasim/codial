@@ -1,5 +1,9 @@
 const Comment = require('../models/comment');
 const Post = require('../models/post');
+const commentsMailer = require('../views/mailers/comments_mailer');
+const queue = require('../config/kue');
+const commentEmailWorker = require('../workers/comment_email_worker');
+
 
 // if we find the post then only will create the comment
 module.exports.create = async function(req, res){
@@ -8,7 +12,7 @@ module.exports.create = async function(req, res){
     // this will come from HTML form
     // Post.findById(req.body.post, function(err, post){
     //      if(post){
-    //         //  if we found the post the we will create the comment
+    //         //  if we found the post the we will create the comment e comment
     //         Comment.create({
     //             content: req.body.content,
     //             post : req.body.post,
@@ -44,7 +48,27 @@ module.exports.create = async function(req, res){
                    post.comments.push(comment);
                    // it tells the DB tht this is final version
                    post.save();
-   
+                //    let populate user everytime
+                   comment = await comment.populate('user', 'name email').execPopulate();
+                //    commentsMailer.newComment(comment);
+               let job =   queue.create('emails', comment).save(function(err){
+                    if(err){
+                        console.log('error in creating queue', err);
+                    }
+                    console.log('job enqueued',job.id);
+                })
+               
+                   if(req.xhr){
+                       
+
+                       return res.status(200).json({
+                           data: {
+                               comment:comment
+                           },
+                           message:"Post created!"
+                       });
+                   } 
+                   req.flash('success', 'Comment published!');
                    res.redirect('/');
                
             }
